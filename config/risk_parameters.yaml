@@ -1,0 +1,237 @@
+# AML Risk Assessment Parameters Configuration
+
+# Risk Thresholds
+risk_thresholds:
+  high_risk: 75      # Automatic SAR generation
+  medium_risk: 45    # Human review required
+  low_risk: 25       # Normal processing
+
+# Scoring Weights (Maximum points per category)
+scoring_weights:
+  sanctions_hit: 40        # Critical: Sanctions list match
+  pep_status: 35          # High: Politically Exposed Person
+  crypto_risks: 25        # High: Cryptocurrency-specific risks
+  jurisdiction_risks: 20   # Medium: Geographic/country risks
+  document_risks: 15      # Medium: Document analysis findings
+  behavioral_alerts: 10   # Low: Pattern-based alerts
+
+# Geographic Risk Classification
+geographic_risks:
+  high_risk_countries:
+    - "IR"  # Iran
+    - "KP"  # North Korea
+    - "SY"  # Syria
+    - "CU"  # Cuba
+    - "MM"  # Myanmar
+    - "RU"  # Russia
+    - "AF"  # Afghanistan
+    - "IQ"  # Iraq
+    risk_multiplier: 2.0
+
+  tax_havens:
+    - "KY"  # Cayman Islands
+    - "VG"  # British Virgin Islands
+    - "BM"  # Bermuda
+    - "PA"  # Panama
+    - "MT"  # Malta
+    - "AE"  # UAE
+    - "CH"  # Switzerland
+    - "LU"  # Luxembourg
+    - "JE"  # Jersey
+    - "GG"  # Guernsey
+    risk_multiplier: 1.5
+
+# Transaction Amount Thresholds
+transaction_thresholds:
+  large_transaction: 100000    # USD equivalent
+  structuring_threshold: 10000 # USD equivalent (CTR threshold)
+  micro_structuring: 3000      # USD equivalent
+  cash_intensive_business: 50000
+
+# Behavioral Risk Patterns
+behavioral_patterns:
+  structuring:
+    max_daily_transactions: 5
+    amount_variance_threshold: 500  # USD
+    time_window_hours: 24
+    risk_score: 20
+
+  rapid_movement:
+    transactions_per_hour: 10
+    risk_score: 15
+
+  round_numbers:
+    tolerance_percentage: 1.0  # 1% tolerance for "round" numbers
+    risk_score: 5
+
+  dormant_account_activation:
+    dormancy_days: 90
+    sudden_activity_multiplier: 5
+    risk_score: 25
+
+# Cryptocurrency Risk Parameters
+crypto_risks:
+  mixer_usage:
+    risk_score: 30
+    known_mixers:
+      - "tornado_cash"
+      - "wasabi_wallet"
+      - "samourai_whirlpool"
+
+  new_wallet:
+    age_threshold_days: 7
+    risk_score: 15
+
+  privacy_coins:
+    risk_score: 20
+    coins:
+      - "XMR"  # Monero
+      - "ZEC"  # Zcash
+      - "DASH" # Dash
+
+  chain_hopping:
+    min_chains: 3
+    risk_score: 25
+
+# PEP (Politically Exposed Person) Categories
+pep_categories:
+  senior_political_figures:
+    risk_score: 35
+    keywords:
+      - "president"
+      - "minister"
+      - "governor"
+      - "mayor"
+      - "senator"
+      - "congressman"
+
+  senior_government_officials:
+    risk_score: 30
+    keywords:
+      - "director"
+      - "commissioner"
+      - "secretary"
+      - "deputy"
+      - "assistant"
+
+  judicial_officials:
+    risk_score: 25
+    keywords:
+      - "judge"
+      - "justice"
+      - "prosecutor"
+      - "attorney general"
+
+  military_officials:
+    risk_score: 25
+    keywords:
+      - "general"
+      - "admiral"
+      - "colonel"
+      - "commander"
+
+# Document Analysis Risk Indicators
+document_risks:
+  trade_based_laundering:
+    risk_score: 25
+    indicators:
+      - "INVOICE_MISMATCH"
+      - "PHANTOM_SHIPMENT"
+      - "OVER_INVOICING"
+      - "UNDER_INVOICING"
+
+  shell_company_indicators:
+    risk_score: 20
+    indicators:
+      - "MINIMAL_BUSINESS_ACTIVITY"
+      - "NOMINEE_DIRECTORS"
+      - "MULTIPLE_JURISDICTIONS"
+      - "UNCLEAR_OWNERSHIP"
+
+  prohibited_goods:
+    risk_score: 30
+    indicators:
+      - "WEAPONS"
+      - "DRUGS"
+      - "WILDLIFE"
+      - "CULTURAL_ARTIFACTS"
+      - "DUAL_USE_TECHNOLOGY"
+
+# Time-based Risk Factors
+temporal_risks:
+  weekend_transactions:
+    risk_multiplier: 1.2
+
+  after_hours_transactions:
+    start_hour: 22  # 10 PM
+    end_hour: 6     # 6 AM
+    risk_multiplier: 1.3
+
+  holiday_transactions:
+    risk_multiplier: 1.5
+
+# Relationship Risk Factors
+relationship_risks:
+  beneficial_ownership:
+    complexity_threshold: 3  # layers
+    risk_score: 15
+
+  correspondent_banking:
+    nested_relationships: 2
+    risk_score: 10
+
+  trust_structures:
+    risk_score: 20
+
+# Machine Learning Model Parameters (if using ML components)
+ml_parameters:
+  anomaly_detection:
+    contamination_rate: 0.1  # Expected percentage of anomalies
+    features:
+      - "transaction_amount"
+      - "transaction_frequency"
+      - "geographic_spread"
+      - "counterparty_diversity"
+
+  clustering:
+    min_cluster_size: 5
+    eps: 0.5  # DBSCAN parameter
+
+# Alert Generation Rules
+alert_rules:
+  auto_sar_generation:
+    min_risk_score: 75
+    required_evidence_types: 2
+
+  human_review_required:
+    min_risk_score: 45
+    max_auto_approval: 44
+
+  enhanced_due_diligence:
+    triggers:
+      - "PEP_DETECTED"
+      - "HIGH_RISK_COUNTRY"
+      - "SANCTIONS_HIT"
+      - "CRYPTO_MIXER_USAGE"
+
+# Compliance and Reporting
+compliance:
+  sar_filing:
+    deadline_hours: 72
+    required_fields:
+      - "transaction_details"
+      - "risk_assessment"
+      - "supporting_evidence"
+      - "analyst_notes"
+
+  record_retention:
+    transaction_records: 2555  # days (7 years)
+    investigation_records: 1825  # days (5 years)
+    training_data: 1095  # days (3 years)
+
+# System Performance Parameters
+performance:
+  processing_timeout: 300  # seconds
+  batch_size: 100
+  max_retries: 3
+  circuit_breaker_threshold: 10  # failed requests before circuit opens

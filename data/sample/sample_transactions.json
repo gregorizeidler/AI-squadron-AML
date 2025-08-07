@@ -1,0 +1,259 @@
+[
+  {
+    "scenario": "Classic Structuring Pattern",
+    "description": "Multiple sub-threshold transactions to avoid CTR reporting",
+    "transaction": {
+      "transaction_id": "STR_001",
+      "amount": 9500,
+      "currency": "USD",
+      "asset_type": "FIAT",
+      "sender_id": "customer_001",
+      "receiver_id": "bank_account_002",
+      "parties": ["John Doe", "ABC Bank"],
+      "origin_country": "US",
+      "destination_country": "US",
+      "intermediate_countries": [],
+      "description": "Cash deposit - business proceeds",
+      "frequency": 8,
+      "documents": [
+        {
+          "document_id": "DOC_STR_001",
+          "document_type": "BANK_STATEMENT",
+          "document_content": "Bank statement showing multiple cash deposits"
+        }
+      ]
+    },
+    "customer": {
+      "customer_id": "customer_001",
+      "name": "John Doe",
+      "customer_type": "Individual",
+      "account_age_days": 120,
+      "account_number": "ACC_001",
+      "risk_level": "MEDIUM",
+      "transaction_history": [
+        {"amount": 9200, "timestamp": "2024-01-15T10:30:00Z"},
+        {"amount": 9350, "timestamp": "2024-01-15T14:30:00Z"},
+        {"amount": 9800, "timestamp": "2024-01-15T18:30:00Z"}
+      ]
+    },
+    "expected_risks": ["STRUCTURING", "UNIFORM_AMOUNTS", "HIGH_FREQUENCY"],
+    "expected_outcome": "HIGH_RISK_ALERT"
+  },
+  {
+    "scenario": "Cryptocurrency Mixer Usage",
+    "description": "High-value crypto transaction using privacy services",
+    "transaction": {
+      "transaction_id": "CRYPTO_001", 
+      "amount": 150000,
+      "currency": "USD",
+      "asset_type": "CRYPTO",
+      "sender_id": "customer_002",
+      "receiver_id": "unknown_wallet",
+      "parties": ["Crypto Trader LLC", "Privacy Exchange"],
+      "origin_country": "US",
+      "destination_country": "??",
+      "intermediate_countries": [],
+      "description": "Bitcoin transaction through privacy mixer",
+      "crypto_details": {
+        "wallet_address_from": "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+        "wallet_address_to": "3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy",
+        "wallet_age_days": 2,
+        "blockchain": "Bitcoin",
+        "cryptocurrency": "BTC",
+        "mixer_used": true,
+        "privacy_coin": false,
+        "cross_chain_swaps": 3,
+        "darknet_market": null,
+        "exchange_used": "tornado_cash"
+      }
+    },
+    "customer": {
+      "customer_id": "customer_002",
+      "name": "Crypto Trader LLC",
+      "customer_type": "Entity",
+      "account_age_days": 15,
+      "account_number": "ACC_002",
+      "risk_level": "HIGH",
+      "transaction_history": []
+    },
+    "expected_risks": ["CRYPTO_MIXER", "NEW_WALLET", "HIGH_VALUE", "NEW_CUSTOMER"],
+    "expected_outcome": "SAR_REQUIRED"
+  },
+  {
+    "scenario": "PEP High-Value Transaction",
+    "description": "Large transaction involving politically exposed person",
+    "transaction": {
+      "transaction_id": "PEP_001",
+      "amount": 500000,
+      "currency": "USD", 
+      "asset_type": "FIAT",
+      "sender_id": "customer_003",
+      "receiver_id": "offshore_account",
+      "parties": ["Minister John Smith", "Offshore Holdings Ltd"],
+      "origin_country": "US",
+      "destination_country": "KY",
+      "intermediate_countries": ["CH"],
+      "description": "Investment transfer to offshore entity",
+      "documents": [
+        {
+          "document_id": "DOC_PEP_001",
+          "document_type": "CONTRACT",
+          "document_content": "Investment agreement with offshore holding company"
+        }
+      ]
+    },
+    "customer": {
+      "customer_id": "customer_003",
+      "name": "Minister John Smith",
+      "customer_type": "Individual",
+      "account_age_days": 1825,
+      "account_number": "ACC_003",
+      "risk_level": "HIGH",
+      "is_pep": true,
+      "pep_category": "senior_political_figures",
+      "beneficial_owners": []
+    },
+    "expected_risks": ["PEP_DETECTED", "HIGH_VALUE", "OFFSHORE_TRANSFER", "TAX_HAVEN"],
+    "expected_outcome": "ENHANCED_DUE_DILIGENCE"
+  },
+  {
+    "scenario": "Trade-Based Money Laundering",
+    "description": "Invoice manipulation and over-invoicing scheme",
+    "transaction": {
+      "transaction_id": "TBML_001",
+      "amount": 300000,
+      "currency": "USD",
+      "asset_type": "FIAT",
+      "sender_id": "customer_004",
+      "receiver_id": "trading_partner",
+      "parties": ["Import Export Corp", "Overseas Supplier Ltd"],
+      "origin_country": "CN",
+      "destination_country": "US",
+      "intermediate_countries": [],
+      "description": "Payment for textile imports",
+      "documents": [
+        {
+          "document_id": "DOC_TBML_001",
+          "document_type": "INVOICE",
+          "document_content": "Commercial Invoice: 1000 units silk fabric @ $300/unit = $300,000"
+        },
+        {
+          "document_id": "DOC_TBML_002", 
+          "document_type": "CUSTOMS_DECLARATION",
+          "document_content": "Customs Declaration: Silk fabric - Declared value $150,000"
+        },
+        {
+          "document_id": "DOC_TBML_003",
+          "document_type": "SHIPPING_MANIFEST",
+          "document_content": "Shipping manifest: 500 units silk fabric"
+        }
+      ]
+    },
+    "customer": {
+      "customer_id": "customer_004",
+      "name": "Import Export Corp",
+      "customer_type": "Entity",
+      "account_age_days": 200,
+      "account_number": "ACC_004",
+      "risk_level": "MEDIUM",
+      "profile": {
+        "industry": "Import/Export",
+        "business_type": "Corporation",
+        "annual_revenue": 5000000
+      }
+    },
+    "expected_risks": ["INVOICE_MISMATCH", "OVER_INVOICING", "QUANTITY_DISCREPANCY", "TRADE_BASED_LAUNDERING"],
+    "expected_outcome": "DOCUMENT_ANALYSIS_ALERT"
+  },
+  {
+    "scenario": "Sanctions Evasion Attempt",
+    "description": "Complex routing to evade sanctions screening",
+    "transaction": {
+      "transaction_id": "SANC_001",
+      "amount": 750000,
+      "currency": "USD",
+      "asset_type": "FIAT",
+      "sender_id": "customer_005",
+      "receiver_id": "sanctioned_entity_proxy",
+      "parties": ["Legitimate Business Inc", "Intermediary Corp", "Final Recipient Ltd"],
+      "origin_country": "US",
+      "destination_country": "IR",
+      "intermediate_countries": ["AE", "TR"],
+      "description": "Business investment through intermediaries",
+      "documents": [
+        {
+          "document_id": "DOC_SANC_001",
+          "document_type": "CONTRACT",
+          "document_content": "Investment agreement with Iranian entity through UAE intermediary"
+        }
+      ]
+    },
+    "customer": {
+      "customer_id": "customer_005",
+      "name": "Legitimate Business Inc",
+      "customer_type": "Entity", 
+      "account_age_days": 90,
+      "account_number": "ACC_005",
+      "risk_level": "LOW",
+      "beneficial_owners": [
+        {
+          "owner_name": "Sanctioned Individual Name",
+          "ownership_percentage": 30.0,
+          "relationship": "Silent Partner",
+          "country_of_residence": "IR",
+          "is_sanctioned": true
+        }
+      ]
+    },
+    "expected_risks": ["SANCTIONS_EVASION", "COMPLEX_ROUTING", "HIGH_RISK_COUNTRY", "SANCTIONED_BENEFICIAL_OWNER"],
+    "expected_outcome": "IMMEDIATE_BLOCK"
+  },
+  {
+    "scenario": "Shell Company Network",
+    "description": "Complex beneficial ownership through shell companies",
+    "transaction": {
+      "transaction_id": "SHELL_001",
+      "amount": 250000,
+      "currency": "USD",
+      "asset_type": "FIAT",
+      "sender_id": "customer_006",
+      "receiver_id": "shell_company_network",
+      "parties": ["Primary Shell Corp", "Secondary Holdings", "Ultimate Beneficiary"],
+      "origin_country": "US",
+      "destination_country": "VG",
+      "intermediate_countries": ["PA", "KY"],
+      "description": "Corporate restructuring payment",
+      "documents": [
+        {
+          "document_id": "DOC_SHELL_001",
+          "document_type": "CONTRACT",
+          "document_content": "Corporate restructuring agreement with multiple shell entities"
+        }
+      ]
+    },
+    "customer": {
+      "customer_id": "customer_006",
+      "name": "Primary Shell Corp",
+      "customer_type": "Entity",
+      "account_age_days": 30,
+      "account_number": "ACC_006", 
+      "risk_level": "HIGH",
+      "beneficial_owners": [
+        {
+          "owner_name": "Nominee Director Services Ltd",
+          "ownership_percentage": 100.0,
+          "relationship": "Nominee Director",
+          "country_of_residence": "VG",
+          "verified": false
+        }
+      ],
+      "profile": {
+        "industry": "Financial Services",
+        "business_type": "Limited Company",
+        "shell_company_indicators": ["nominee_directors", "minimal_business_activity", "offshore_incorporation"]
+      }
+    },
+    "expected_risks": ["SHELL_COMPANY", "NOMINEE_DIRECTORS", "COMPLEX_OWNERSHIP", "TAX_HAVEN_ROUTING"],
+    "expected_outcome": "ENHANCED_DUE_DILIGENCE"
+  }
+]
