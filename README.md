@@ -4,7 +4,7 @@
 [![AWS](https://img.shields.io/badge/AWS-Cloud%20Native-orange.svg)](https://aws.amazon.com/)
 [![LangGraph](https://img.shields.io/badge/LangGraph-Multi--Agent-green.svg)](https://langchain.com/langgraph)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-
+ 
 > **AI Squadron: Coordinated Multi-Agent AML Detection System**
 
 An Anti-Money Laundering (AML) detection system that deploys a **squadron of specialized AI agents** working together through **Multi-Agent Orchestration** and **Semantic Reasoning** to identify suspicious financial activities. Built on AWS cloud infrastructure with LangGraph workflow orchestration for scalable, intelligent detection.
